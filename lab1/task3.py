@@ -1,8 +1,3 @@
-a=7
-b=4
-c=3
-g=(a+b)*c**2-a//b+a%b
-print(g)
 d=5.5
 sh=3
 s=d*sh
