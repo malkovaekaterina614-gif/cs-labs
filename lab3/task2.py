@@ -1,0 +1,8 @@
+full_name = input()
+parts = full_name.split()
+
+last_name = parts[0].capitalize()
+first_initial = parts[1][0].upper()
+middle_initial = parts[2][0].upper()
+
+print(f"{last_name} {first_initial}. {middle_initial}.")
