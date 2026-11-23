@@ -1,11 +1,10 @@
-# Функция проверяет, правильную ли команду ввел пользователь
+# правильность команды  пользователя
 def is_valid_command(command):
-    # Если команда входит в список разрешенных, возвращаем True, иначе False
+    # (указано в задании при каких условиях и что)
     if command == "0" or command == "1" or command == "2" or command == "exit":
         return True
     else:
         return False
-
 
 # Функция проверяет, хватает ли топлива на выбранную мощность двигателя
 def can_burn(power, fuel):
@@ -14,7 +13,6 @@ def can_burn(power, fuel):
         return True
     else:
         return False
-
 
 # Функция рассчитывает один шаг полета и возвращает новые значения
 def simulate_step(height, speed, fuel, power, gravity, thrust_step):
@@ -31,10 +29,9 @@ def simulate_step(height, speed, fuel, power, gravity, thrust_step):
     # 3. Считаем новую высоту: вычитаем новую скорость из текущей высоты
     new_height = height - new_speed
 
-    # Если высота ушла в минус, приравниваем её к нулю (касание поверхности)
+    # Если высота ушла в минус, касание поверхности
     if new_height < 0:
         new_height = 0
-
     # Возвращаем тройку новых значений (кортеж)
     return new_height, new_speed, new_fuel
 
@@ -54,27 +51,22 @@ def get_status(height, speed, safe_speed=2):
         return "Авария"
 
 
-# Функция собирает данные в красивую текстовую строку строго по шаблону задания
 def format_state(height, speed, fuel):
     return "Высота: " + str(height) + " | Скорость: " + str(speed) + " | Топливо: " + str(fuel)
 
 
-# Главная функция, которая запускает всю игру
 def main():
     height = 36
     speed = 3
     fuel = 10
     gravity = 3
     thrust_step = 4
-
-    # Выводим самое первое (стартовое) состояние модуля на экран
+    # Выводим самое стартовое состояние модуля на экран
     print(format_state(height, speed, fuel))
 
     # Бесконечный цикл игры, пока модуль не приземлится или пользователь не выйдет
     while True:
-        # Читаем команду из консоли
         command = input()
-
         # Проверяем, существует ли вообще такая команда
         if is_valid_command(command) == False:
             print("Ошибка команды")
@@ -83,19 +75,15 @@ def main():
             print("Полет прерван")
             break
 
-        # Превращаем текст команды ("0", "1" или "2") в целое число мощности
         power = int(command)
-
         # Проверяем, хватает ли топлива на этот шаг
         if can_burn(power, fuel) == False:
             print("Недостаточно топлива")
             continue
         # Вызываем симуляцию шага и перезаписываем переменные состояния
         height, speed, fuel = simulate_step(height, speed, fuel, power, gravity, thrust_step)
-        # Выводим на экран обновившиеся после шага параметры
-        print(format_state(height, speed, fuel))
-        # Проверяем текущий статус полета
-        status = get_status(height, speed)
+        print(format_state(height, speed, fuel)) # Выводим на экран обновившиеся после шага параметры
+        status = get_status(height, speed) # Проверяем текущий статус полета
         # Если статус изменился и мы больше не "В полете" — выводим результат и завершаем игру
         if status != "В полете":
             print(status)
